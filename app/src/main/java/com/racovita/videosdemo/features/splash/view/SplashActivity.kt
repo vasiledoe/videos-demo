@@ -2,7 +2,7 @@ package com.racovita.videosdemo.features.splash.view
 
 import android.content.Intent
 import android.os.Bundle
-import com.racovita.videosdemo.MainActivity
+import com.racovita.videosdemo.features.videos.view.activity.VideosActivity
 import com.racovita.videosdemo.features.base.view.BaseActivity
 
 /**
@@ -25,7 +25,7 @@ class SplashActivity : BaseActivity() {
      * back stack anymore
      */
     private fun goToNextActivity() {
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, VideosActivity::class.java))
         finish()
     }
 }
