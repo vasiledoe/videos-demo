@@ -68,6 +68,17 @@ class VideosViewModel(
      * Activity will receive items from existing LiveData, else initiate API request.
      */
     fun getVideos() {
+        /**
+         *  nullify error value because after screen rotation if there was any errors,
+         *  UI will get the last one
+         */
+        error.value = null
+
+        /**
+         * Clear existing disposables
+         */
+        mDisposables.clear()
+
         if (videosTemp.value != null) {
             videos.value = videosTemp.value
 
