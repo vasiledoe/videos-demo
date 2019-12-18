@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">Videos demo</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
+    <string name="app_name">Videos Demo</string>
+
+    <string name="err_no_items">No items found.</string>
+    <string name="err_ops">Oops an error occurred, please try again later.</string>
+    <string name="err_bad_connection">Oops your Internet connection seems to be really bad, please reconnect and try again.</string>
+    <string name="err_no_connection">No connection.</string>
+
 </resources>

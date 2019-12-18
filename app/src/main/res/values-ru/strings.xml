@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Videos Demo</string>
+
+    <string name="err_no_items">Ничего не найдено.</string>
+    <string name="err_ops">Произошла ошибка. Повторите попытку позже.</string>
+    <string name="err_bad_connection">К сожалению, ваше интернет-соединение кажется очень плохим, пожалуйста, переподключите и попробуйте снова.</string>
+    <string name="err_no_connection">Нет соединения.</string>
+
+
+</resources>
