@@ -2,7 +2,7 @@ package com.racovita.videosdemo.features.splash.view
 
 import android.content.Intent
 import android.os.Bundle
-import com.racovita.videosdemo.features.videos.view.activity.VideosActivity
+import com.racovita.videosdemo.features.videos.view.VideosActivity
 import com.racovita.videosdemo.features.base.view.BaseActivity
 
 /**

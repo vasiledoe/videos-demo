@@ -19,68 +19,55 @@
             android:id="@+id/iv_thumb"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dim_card_img_height"
+            android:scaleType="centerCrop"
             android:src="@color/divider"
             tools:ignore="ContentDescription" />
 
-        <RelativeLayout
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/TextView.Primary.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/material_margin">
+            android:layout_marginStart="@dimen/material_margin"
+            android:layout_marginTop="@dimen/material_margin"
+            android:layout_marginEnd="@dimen/material_margin"
+            android:ellipsize="end"
+            android:maxLines="2"
+            tools:text="Super movie" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginStart="@dimen/material_margin"
+            android:layout_marginTop="@dimen/material_margin_xs"
+            android:orientation="horizontal">
+
+            <RatingBar
+                android:id="@+id/rating"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
 
             <TextView
-                android:id="@+id/tv_title"
-                style="@style/TextView.Primary.Large"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/material_margin"
-                android:layout_toStartOf="@+id/btn_favorite"
-                android:ellipsize="end"
-                android:maxLines="2"
-                tools:text="Super movie" />
-
-            <LinearLayout
+                android:id="@+id/tv_rating"
+                style="@style/TextView.Secondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_title"
-                android:layout_marginTop="@dimen/material_margin_xs"
-                android:orientation="horizontal">
+                android:layout_marginStart="@dimen/material_margin"
+                tools:text="4.5" />
 
-                <RatingBar
-                    android:id="@+id/rating"
-                    style="?android:attr/ratingBarStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/tv_rating"
-                    style="@style/TextView.Secondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/material_margin"
-                    tools:text="4.5" />
-
-                <TextView
-                    android:id="@+id/tv_votes"
-                    style="@style/TextView.Secondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/material_margin_s"
-                    tools:text="(892)" />
-            </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/btn_favorite"
+            <TextView
+                android:id="@+id/tv_raters"
+                style="@style/TextView.Secondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="-12dp"
-                android:layout_marginEnd="4dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="12dp"
-                android:src="@drawable/ic_favorite_on"
-                tools:ignore="ContentDescription" />
+                android:layout_marginStart="@dimen/material_margin_s"
+                tools:text="(892)" />
+        </LinearLayout>
 
-        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_description"
@@ -90,6 +77,8 @@
             android:layout_marginStart="@dimen/material_margin"
             android:layout_marginTop="@dimen/material_margin"
             android:layout_marginEnd="@dimen/material_margin"
+            android:ellipsize="end"
+            android:maxLines="4"
             tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat" />
     </LinearLayout>
 
