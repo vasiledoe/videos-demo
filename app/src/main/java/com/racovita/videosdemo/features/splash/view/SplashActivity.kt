@@ -2,8 +2,8 @@ package com.racovita.videosdemo.features.splash.view
 
 import android.content.Intent
 import android.os.Bundle
-import com.racovita.videosdemo.features.videos.view.VideosActivity
 import com.racovita.videosdemo.features.base.view.BaseActivity
+import com.racovita.videosdemo.features.videos.view.VideosActivity
 
 /**
  * Simple splash screen background & icon is shown from <style>. Don't use any XML layout

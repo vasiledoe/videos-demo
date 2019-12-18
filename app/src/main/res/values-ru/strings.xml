@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">Videos Demo</string>
 
-    <string name="tab_text_all">Все</string>
-    <string name="tab_text_fav">Избранные</string>
-
     <string name="err_no_items">Ничего не найдено.</string>
     <string name="err_ops">Произошла ошибка. Повторите попытку позже.</string>
     <string name="err_bad_connection">К сожалению, ваше интернет-соединение кажется очень плохим, пожалуйста, переподключите и попробуйте снова.</string>

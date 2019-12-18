@@ -4,7 +4,7 @@ import com.racovita.videosdemo.data.models.ApiVideo
 import com.racovita.videosdemo.data.models.Video
 
 /**
- * Format object data as is required to consume it in app
+ * Format object data as is required to consume it in app.
  */
 fun ApiVideo.toDomain(): Video {
     return Video(

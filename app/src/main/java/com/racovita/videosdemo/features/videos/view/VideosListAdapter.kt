@@ -3,7 +3,6 @@ package com.racovita.videosdemo.features.videos.view
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
@@ -26,7 +25,7 @@ class VideosListAdapter(
     fun addItems(newItems: List<Video>) {
         val listSize = items.size
         items.addAll(newItems)
-        notifyItemRangeChanged(listSize - 1, items.size - 1)
+        notifyItemRangeChanged(listSize, items.size - 1)
     }
 
 
@@ -65,7 +64,7 @@ class VideosListAdapter(
             tvDescription.text = apiVideo.overview
             ratingBar.rating = apiVideo.rating
 
-            Picasso.get().load(apiVideo.thumb).into(ivThumb)
+            Picasso.get().load(apiVideo.thumb).error(R.color.divider).into(ivThumb)
 
             wholeZone.setOnClickListener { listener(apiVideo) }
         }

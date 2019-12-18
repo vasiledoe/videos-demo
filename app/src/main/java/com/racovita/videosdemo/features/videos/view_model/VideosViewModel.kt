@@ -3,54 +3,63 @@ package com.racovita.videosdemo.features.videos.view_model
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
+import com.racovita.videosdemo.R
 import com.racovita.videosdemo.data.models.Video
 import com.racovita.videosdemo.data.models.VideosRs
 import com.racovita.videosdemo.utils.extensions.getPrettyErrorMessage
 import com.racovita.videosdemo.utils.extensions.plusAssign
+import com.racovita.videosdemo.utils.extensions.safelyDispose
 import com.racovita.videosdemo.utils.extensions.toDomain
 import com.racovita.videosdemo.utils.helper.ResUtil
 import com.racovita.videosdemo.utils.network.DataRepository
-import com.racovita.videosdemo.utils.network.NetworkConnectivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
 class VideosViewModel(
-    private val connectivity: NetworkConnectivity,
     private val repo: DataRepository,
     private val resUtil: ResUtil
 ) : ViewModel() {
 
     /**
-     * Used to store all items and show them when screen orientation change
+     * Used to store all items and show them when screen orientation change.
      */
     private val videosTemp = MutableLiveData<ArrayList<Video>>()
 
     /**
      * Used to publish items to UI, each page or value of [videosTemp] when screen
-     * orientation change
+     * orientation change.
      */
     val videos = MutableLiveData<List<Video>>()
 
     /**
-     * Used to keep pagination data simple to use
+     * Used to keep pagination data simple to use.
      */
     var hasNextPage: Boolean = false
     var nextPage: Int = 1
 
     /**
-     * Used to track loading progress bar state & notify it to UI
+     * Used to track loading progress bar state & notify it to UI.
      */
-    val loadingState = MutableLiveData<Boolean>()
+    private val loadingState = MutableLiveData<Boolean>()
 
     /**
-     * Used to publish to UI any API error
+     * Used to publish to UI any API error.
      */
     val error = MutableLiveData<String>()
 
     /**
-     * store here all disposables and cancel them all when [VideosViewModel] is destroyed
+     * Store here all disposables and cancel them all when [VideosViewModel] is destroyed.
      */
     private var mDisposables = CompositeDisposable()
+
+    /**
+     * Disposable to keep a reference to current network connectivity check,
+     * in case it's connected  just dispose it.
+     */
+    private var mConnectionDisposable: Disposable? = null
 
 
     /**
@@ -63,30 +72,59 @@ class VideosViewModel(
             videos.value = videosTemp.value
 
         } else {
-            getData()
+            tryGetData()
         }
     }
 
-
+    /**
+     * Check if has Internet connection, if no then wait to connect and then do request.
+     */
     @SuppressLint("CheckResult")
-    fun getData() {
-        repo.getData(nextPage)
+    fun tryGetData() {
+        ReactiveNetwork.observeInternetConnectivity()
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 mDisposables.add(it)
+                mConnectionDisposable = it
+            }
+            .subscribe { isConnectedToInternet ->
 
-                if (nextPage > 1)
-                    loadingState.value = true
+                if (isConnectedToInternet) {
+                    getData()
+                    mConnectionDisposable.safelyDispose()
+
+                } else {
+                    error.value = resUtil.getStringRes(R.string.err_no_connection)
+                }
             }
-            .doAfterTerminate {
-                loadingState.value = false
-            }
-            .subscribe(
-                this::onHandleSuccess,
-                this::onHandleError
-            )
     }
 
+    /**
+     * Do Api request.
+     */
+    private fun getData() {
+        if (nextPage == 1)
+            loadingState.value = true
+
+        mDisposables.add(
+            repo.getData(nextPage)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate {
+                    loadingState.value = false
+                }
+                .subscribe(
+                    this::onHandleSuccess,
+                    this::onHandleError
+                )
+        )
+    }
+
+    /**
+     * Manage successfully server response storing pagination data to local vars &
+     * adding items to [videosTemp] to notify UI &
+     * storing items to [videosTemp] for screen orientation backup.
+     */
     private fun onHandleSuccess(videosRs: VideosRs) {
         val items = videosRs.results.map { it.toDomain() }
         videos.value = items
@@ -96,6 +134,9 @@ class VideosViewModel(
         nextPage = videosRs.page + 1
     }
 
+    /**
+     * Manage error server response and notify UI.
+     */
     private fun onHandleError(t: Throwable) {
         error.value = t.getPrettyErrorMessage(resUtil)
     }
