@@ -18,7 +18,7 @@ class VideosActivity : BaseActivity() {
 
     private val mViewModel by viewModel<VideosViewModel>()
     private lateinit var mItemsAdapter: VideosListAdapter
-    private var isPaginationConsumed: Boolean = false
+    private var isPaginationConsumed: Boolean = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,15 +115,17 @@ class VideosActivity : BaseActivity() {
      * Show error if something's gone wrong. In case it's pagination then just show a toast
      * error message, no need to hide all items and show error message as we do for first page.
      */
-    private fun showError(err: String) {
-        if (mViewModel.nextPage == 1) {
-            progress.hide()
-            tv_error.show()
-            rv_items.hide()
-            tv_error.text = err
+    private fun showError(err: String?) {
+        err?.let {
+            if (mViewModel.nextPage == 1) {
+                progress.hide()
+                tv_error.show()
+                rv_items.hide()
+                tv_error.text = err
 
-        } else {
-            Toast.makeText(this, err, Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, err, Toast.LENGTH_LONG).show()
+            }
         }
     }
 
